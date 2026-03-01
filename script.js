@@ -1,28 +1,44 @@
-function openEditor() {
-  document.getElementById("editorModal").style.display = "flex";
-  document.getElementById("nameInput").value =
-    document.getElementById("nickname").innerText;
+function openEditor(){
+  document.getElementById("modal").style.display="flex";
 }
 
-function closeEditor() {
-  document.getElementById("editorModal").style.display = "none";
+function closeEditor(){
+  document.getElementById("modal").style.display="none";
 }
 
-function saveChanges() {
-  const newName = document.getElementById("nameInput").value;
-  const newVip = document.getElementById("vipSelect").value;
-  const avatarInput = document.getElementById("avatarInput");
+function save(){
+  const name=document.getElementById("nameInput").value;
+  const vip=document.getElementById("vipInput").value;
+  const phone=document.getElementById("phoneInput").value;
+  const avatarFile=document.getElementById("avatarInput").files[0];
 
-  document.getElementById("nickname").innerText = newName;
-  document.getElementById("vipLevel").innerText = newVip;
+  if(name) document.getElementById("name").innerText=name;
+  if(vip) document.getElementById("vipLevel").innerText=vip;
+  if(phone) document.getElementById("phone").innerText=phone;
 
-  if (avatarInput.files && avatarInput.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      document.getElementById("avatar").src = e.target.result;
-    };
-    reader.readAsDataURL(avatarInput.files[0]);
+  if(avatarFile){
+    const reader=new FileReader();
+    reader.onload=e=>{
+      document.getElementById("avatar").style.backgroundImage=`url(${e.target.result})`;
+      localStorage.setItem("avatar",e.target.result);
+    }
+    reader.readAsDataURL(avatarFile);
   }
 
+  localStorage.setItem("name",document.getElementById("name").innerText);
+  localStorage.setItem("vip",document.getElementById("vipLevel").innerText);
+  localStorage.setItem("phone",document.getElementById("phone").innerText);
+
   closeEditor();
+}
+
+window.onload=()=>{
+  if(localStorage.getItem("name"))
+    document.getElementById("name").innerText=localStorage.getItem("name");
+  if(localStorage.getItem("vip"))
+    document.getElementById("vipLevel").innerText=localStorage.getItem("vip");
+  if(localStorage.getItem("phone"))
+    document.getElementById("phone").innerText=localStorage.getItem("phone");
+  if(localStorage.getItem("avatar"))
+    document.getElementById("avatar").style.backgroundImage=`url(${localStorage.getItem("avatar")})`;
 }
