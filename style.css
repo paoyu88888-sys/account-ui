@@ -1,14 +1,24 @@
 :root{
+  /* 背景灰：更像原图（冷灰） */
   --bg:#F3F4F7;
   --card:#FFFFFF;
+
   --text:#0D0D0D;
   --sub:#9A9EA6;
+
+  /* 分割线极淡 */
   --line:rgba(17,19,23,0.05);
+
+  /* 卡片阴影分层：模拟 iOS */
+  --shadow1:0 1px 1px rgba(0,0,0,0.02);
+  --shadow2:0 8px 24px rgba(0,0,0,0.04);
+
   --maxw:430px;
+  --pad-x:22px;
 }
 
-*{box-sizing:border-box;}
-html,body{height:100%;}
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
 
 body{
   margin:0;
@@ -21,7 +31,7 @@ body{
 .app{
   width:min(var(--maxw),100vw);
   margin:0 auto;
-  padding:20px 22px 32px;
+  padding:20px var(--pad-x) 32px;
 }
 
 /* 顶部 */
@@ -36,9 +46,14 @@ body{
 .back{
   position:absolute;
   left:0;
+  top:50%;
+  transform:translateY(-50%);
   padding:10px;
   border:0;
   background:transparent;
+  border-radius:12px;
+  color:#171A1F;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .title{
@@ -52,10 +67,8 @@ body{
 .card{
   margin-top:10px;
   background:var(--card);
-  border-radius:28px;
-  box-shadow:
-    0 1px 1px rgba(0,0,0,0.02),
-    0 8px 24px rgba(0,0,0,0.04);
+  border-radius:28px; /* 连续圆角模拟 */
+  box-shadow:var(--shadow1), var(--shadow2);
   padding:20px 20px 18px;
 }
 
@@ -79,22 +92,26 @@ body{
 .account-main{
   margin-left:14px;
   flex:1;
+  min-width:0;
 }
 
-/* 顶部一行 */
+/* 第一行：昵称 + SVIP + 当前登录 */
 .topline{
   display:flex;
   align-items:center;
   gap:8px;
+  min-width:0;
 }
 
 .name{
   font-size:18px;
   font-weight:700;
   color:#0B0B0B;
+  letter-spacing:0.2px;
+  white-space:nowrap;
 }
 
-/* SVIP */
+/* SVIP：深咖底 + 金币 + 浅金字 */
 .vip{
   display:inline-flex;
   align-items:center;
@@ -102,6 +119,7 @@ body{
   padding:0 10px 0 6px;
   border-radius:999px;
   background:#1E1A15;
+  flex:0 0 auto;
 }
 
 .vip-coin{
@@ -114,7 +132,7 @@ body{
     radial-gradient(circle at 40% 40%, #F6C45A 0 55%, #B8821F 56% 100%);
   box-shadow:
     inset 0 0 0 1px rgba(255,255,255,0.25),
-    0 0 0 1px rgba(0,0,0,0.3);
+    0 0 0 1px rgba(0,0,0,0.30);
 }
 
 .vip-text{
@@ -124,7 +142,7 @@ body{
   letter-spacing:0.2px;
 }
 
-/* 当前登录 */
+/* 当前登录：浅粉底红字，尺寸更小 */
 .current{
   display:inline-flex;
   align-items:center;
@@ -135,6 +153,7 @@ body{
   color:#FF3B30;
   font-size:12px;
   font-weight:600;
+  flex:0 0 auto;
 }
 
 /* 手机号 */
@@ -143,12 +162,13 @@ body{
   font-size:14px;
   font-weight:500;
   color:var(--sub);
+  letter-spacing:0.2px;
 }
 
-/* 分割线 */
+/* 分割线：从文字区域开始 */
 .divider-wrap{
   margin-top:16px;
-  margin-left:70px;
+  margin-left:70px; /* 头像56 + 间距14 */
 }
 
 .divider{
@@ -156,7 +176,7 @@ body{
   background:var(--line);
 }
 
-/* 添加账号 */
+/* 添加账号行 */
 .add{
   margin-top:16px;
   width:100%;
@@ -166,6 +186,8 @@ body{
   display:flex;
   align-items:center;
   gap:16px;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .add-icon{
@@ -177,6 +199,7 @@ body{
   align-items:center;
   justify-content:center;
   color:#22252B;
+  flex:0 0 auto;
 }
 
 .add-text{
@@ -191,10 +214,14 @@ body{
   font-size:16px;
   color:#AEB3BC;
   font-weight:600;
+  padding-left:2px;
 }
 
-/* ===== 弹层 ===== */
+/* =========================
+   弹层（隐藏编辑）完整样式
+   ========================= */
 
+/* 遮罩 */
 .sheet-mask{
   position:fixed;
   inset:0;
@@ -204,27 +231,31 @@ body{
   z-index:1000;
 }
 
+/* 弹层：最稳写法，避免 iOS 跑偏 */
 .sheet{
   position:fixed;
-  bottom:-100%;
   left:0;
   right:0;
+  bottom:-100%;
+
   width:100%;
   max-width:430px;
   margin-left:auto;
   margin-right:auto;
-  background:#ffffff;
+
+  background:#fff;
   border-top-left-radius:24px;
   border-top-right-radius:24px;
+
   box-shadow:0 -20px 60px rgba(0,0,0,0.18);
+
   padding:14px 20px 24px;
+
   transition:bottom 0.25s ease;
   z-index:1001;
 }
 
-.sheet.open{
-  bottom:0;
-}
+.sheet.open{ bottom:0; }
 
 .sheet-handle{
   width:44px;
@@ -232,4 +263,185 @@ body{
   border-radius:999px;
   background:rgba(0,0,0,0.12);
   margin:4px auto 10px;
+}
+
+.sheet-title{
+  font-size:16px;
+  font-weight:800;
+  text-align:center;
+  margin-bottom:12px;
+  color:#1A1D23;
+}
+
+/* 表单布局 */
+.form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.form-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.label{
+  width:72px;
+  flex:0 0 auto;
+  font-size:14px;
+  font-weight:800;
+  color:#2A2E36;
+}
+
+.control{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+/* 输入框 */
+.input{
+  width:100%;
+  height:36px;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.10);
+  padding:0 12px;
+  font-size:14px;
+  outline:none;
+  background:#fff;
+}
+
+.input::placeholder{
+  color:rgba(17,19,23,0.35);
+  font-weight:600;
+}
+
+.input:focus{
+  border-color:rgba(0,0,0,0.22);
+}
+
+/* 上传按钮 */
+.upload{
+  position:relative;
+  overflow:hidden;
+  height:32px;
+  padding:0 12px;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.12);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:800;
+  color:#1A1D23;
+  background:#FAFAFB;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.upload input{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  cursor:pointer;
+}
+
+/* 小按钮 */
+.mini{
+  height:32px;
+  padding:0 10px;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.12);
+  background:#FAFAFB;
+  font-size:13px;
+  font-weight:800;
+  color:#1A1D23;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* iOS 开关 */
+.toggle{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.toggle input{ display:none; }
+
+.toggle-ui{
+  width:44px;
+  height:26px;
+  border-radius:999px;
+  background:rgba(0,0,0,0.14);
+  position:relative;
+  transition:background 160ms ease;
+  flex:0 0 auto;
+}
+
+.toggle-ui::after{
+  content:"";
+  width:22px;
+  height:22px;
+  border-radius:999px;
+  background:#fff;
+  position:absolute;
+  top:2px;
+  left:2px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.18);
+  transition:transform 160ms ease;
+}
+
+.toggle input:checked + .toggle-ui{
+  background:#34C759;
+}
+
+.toggle input:checked + .toggle-ui::after{
+  transform:translateX(18px);
+}
+
+.toggle-text{
+  font-size:13px;
+  font-weight:900;
+  color:#1A1D23;
+}
+
+/* 按钮区 */
+.actions{
+  margin-top:6px;
+  display:flex;
+  gap:10px;
+}
+
+.btn{
+  height:40px;
+  border-radius:12px;
+  border:0;
+  font-size:14px;
+  font-weight:900;
+  flex:1;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.primary{
+  background:#111317;
+  color:#fff;
+}
+
+.ghost{
+  background:#F1F2F4;
+  color:#111317;
+}
+
+/* 小屏适配 */
+@media (max-width:390px){
+  .title{ font-size:20px; }
+  .add-text{ font-size:18px; }
+  .tip{ font-size:15px; }
+  .label{ width:64px; }
 }
