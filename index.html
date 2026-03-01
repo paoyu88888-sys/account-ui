@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>账号切换</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="nav">
+    <span class="back">‹</span>
+    <span class="title">切换账号</span>
+  </div>
+
+  <div class="account-card">
+    <img id="avatar" class="avatar" src="https://i.pravatar.cc/150?img=3" />
+    <div class="info">
+      <div class="name" id="nickname">Paoyu</div>
+      <div class="vip" id="vipLevel">VIP3</div>
+    </div>
+  </div>
+
+  <div class="add-account" onclick="openEditor()">
+    <div class="add-icon">+</div>
+    <span>添加账号</span>
+  </div>
+
+</div>
+
+<!-- 隐藏编辑面板 -->
+<div class="modal" id="editorModal">
+  <div class="modal-content">
+    <h3>账号设置</h3>
+
+    <label>头像</label>
+    <input type="file" id="avatarInput" accept="image/*">
+
+    <label>昵称</label>
+    <input type="text" id="nameInput">
+
+    <label>VIP等级</label>
+    <select id="vipSelect">
+      <option>VIP1</option>
+      <option>VIP2</option>
+      <option>VIP3</option>
+      <option>VIP4</option>
+      <option>VIP5</option>
+    </select>
+
+    <button onclick="saveChanges()">保存</button>
+    <button class="cancel" onclick="closeEditor()">取消</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
